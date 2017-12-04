@@ -25,13 +25,21 @@ def softmax_loss_naive(W, X, y, reg):
   loss = 0.0
   dW = np.zeros_like(W)
   f = np.matmul(X,W)
+  p = np.zeros_like(f)
+
 
   for i in xrange(0,y.shape[0]):
-    loss-=f[i][y[i]]
+    f[i] -= np.max(f[i]) #normalize
+    np.exp(f[i])
+    f_y_i = f[i][y[i]]
+    f_sum = 0
     for j in xrange(0,X.shape[1]):
-      loss += np.log(np.exp(f[i][j]))
+      f_sum += f[i][j]
+    p[i] = f_y_i / f_sum
+    loss -= np.log(p[i])
 
   loss /= num_train
+
 
 
   #############################################################################
