@@ -39,8 +39,10 @@ class LinearClassifier(object):
     # Run stochastic gradient descent to optimize W
     loss_history = []
     for it in xrange(num_iters):
-      X_batch = X[100*it : 100*(it+1), :]
-      y_batch = y[100*it : 100*(it+1)]
+      start = np.random.randint(0,num_train - batch_size)
+
+      X_batch = np.transpose(X[start : start + batch_size, :])
+      y_batch = y[start : start + batch_size]
 
 
 
@@ -64,6 +66,8 @@ class LinearClassifier(object):
       # evaluate loss and gradient
       loss, grad = self.loss(X_batch, y_batch, reg)
       loss_history.append(loss)
+
+      self.W -= learning_rate * grad
 
       # perform parameter update
       #########################################################################
@@ -95,6 +99,8 @@ class LinearClassifier(object):
       class.
     """
     y_pred = np.zeros(X.shape[0])
+    y_pred = np.argmax(np.matmul(X,W),axis=1)
+
     ###########################################################################
     # TODO:                                                                   #
     # Implement this method. Store the predicted labels in y_pred.            #
@@ -120,7 +126,7 @@ class LinearClassifier(object):
     - loss as a single float
     - gradient with respect to self.W; an array of the same shape as W
     """
-    pass
+    return LinearSVM.loss(X_batch,y_batch,reg);
 
 
 class LinearSVM(LinearClassifier):
