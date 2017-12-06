@@ -99,7 +99,7 @@ class LinearClassifier(object):
       class.
     """
     y_pred = np.zeros(X.shape[0])
-    y_pred = np.argmax(np.matmul(X,W),axis=1)
+    y_pred = np.argmax(np.matmul(X,self.W),axis=1)
 
     ###########################################################################
     # TODO:                                                                   #
